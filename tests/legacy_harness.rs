@@ -291,8 +291,14 @@ mod legacy_test_filters {
 
         // explicit, separate testcase construction of the "script" option as it is not the deafult
         let filter = NetworkFilter::parse("||googlesyndication.com/safeframe/$third-party,script", true).unwrap();
+        let filter2 = NetworkFilter::parse("||googlesyndication.com/safeframe/$~third-party,script", true).unwrap();
+        let filter3 = NetworkFilter::parse("||googlesyndication.com/safeframe/$first-party,script", true).unwrap();
+        let filter4 = NetworkFilter::parse("||googlesyndication.com/safeframe/$script", true).unwrap();
         let request = Request::from_urls("http://tpc.googlesyndication.com/safeframe/1-0-2/html/container.html#xpc=sf-gdn-exp-2&p=http%3A//slashdot.org;", "", "script").unwrap();
         assert!(filter.matches(&request));
+        assert!(filter2.matches(&request));
+        assert!(filter3.matches(&request));
+        assert!(filter4.matches(&request));
     }
 }
 
